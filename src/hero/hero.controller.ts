@@ -5,7 +5,7 @@ import { updateTasStatuskDto } from './dto/update-task.dto';
 import { HeroById } from './interfaces/hero-by-id.interface';
 import { Hero } from './interfaces/hero.interface';
 
-const items: Hero[] = [{ id: 1, name: 'Buy apple', status:'OPEN' }, { id: 2, name: 'Buy milk', status: 'OPEN' }];
+let items: Hero[] = [{ id: 1, name: 'Buy apple', status:'OPEN' }, { id: 2, name: 'Buy milk', status: 'OPEN' }];
 
 @Controller('task')
 export class HeroController {
@@ -41,5 +41,18 @@ export class HeroController {
         }else{
             throw new NotFoundException('not found task for this id')
         }
+    }
+
+    @GrpcMethod('TaskService')
+    deleteTask(data:{id:number}){
+        const {id} = data
+        let found = items.find((item)=>item.id===id)
+         if(found){
+            items = items.filter(item=>item.id !== id )
+            console.log(items)
+            return {items:items}
+         }else{
+            throw new NotFoundException('Not task found for this id')
+         }
     }
 }
