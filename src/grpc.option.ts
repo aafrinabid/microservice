@@ -5,7 +5,7 @@ export const grpcClientOptions: ClientOptions = {
     transport: Transport.GRPC,
     options: {
         url:'localhost:50051',
-        package:'task',
-        protoPath:join(__dirname,'./hero/hero.proto')
+        package:['task', 'auth'],
+        protoPath:[join(__dirname,'./hero/hero.proto'), join(__dirname,'./auth/auth.proto')]
     }
 }
